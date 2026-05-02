@@ -13,20 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
       - name: Build APK with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
+        uses: kivy/buildozer-action@v1
         id: buildozer
         with:
           command: buildozer android debug
-          buildozer_version: stable
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: bounce-apk
-          path: ${{ steps.buildozer.outputs.filename }}
+          path: .buildozer/android/platform/build-*/dists/*/build/outputs/apk/debug/*.apk
